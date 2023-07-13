@@ -1,11 +1,11 @@
-function shuffle(arr: number[]) {
+const shuffle = (arr: number[]) => {
   for (let i = arr.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-}
+};
 
-function getRandomCoords(size: number, countRandomElem: number) {
+const getRandomCoords = (size: number, countRandomElem: number) => {
   const arr = [];
   const randomCoords = [];
   const max = size * size;
@@ -23,19 +23,19 @@ function getRandomCoords(size: number, countRandomElem: number) {
   }
 
   return randomCoords;
-}
+};
 
-export function CreateGrid(size: number, mineCount: number) {
+export const CreateGrid = (size: number, mineCount: number) => {
   const MINE = -1;
   const grid = new Array(size * size).fill(0);
   const mineCoords = getRandomCoords(size, mineCount);
 
-  function inc(x: number, y: number) {
+  const inc = (x: number, y: number) => {
     if (x >= 0 && x < size && y >= 0 && y < size) {
       if (grid[y * size + x] === MINE) return;
       grid[y * size + x] += 1;
     }
-  }
+  };
 
   //заполнение поля бомбами
 
@@ -56,4 +56,4 @@ export function CreateGrid(size: number, mineCount: number) {
   }
 
   return grid;
-}
+};
