@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import "./Board.css";
 import { CreateGrid } from "../../utils";
 import BoardElement from "./BoardElement";
 import { GameStatus } from "../Game";
-
-const BoardRoot = styled.div``;
-const RowDiv = styled.div`
-  display: flex;
-`;
 
 export type MaskState = "active" | "inactive" | "flaged";
 
@@ -18,9 +13,10 @@ type BoardProps = {
 
 const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
   const gridSize = 10;
-  const mineCount = 5;
+  const mineCount = 10;
   const [flags, setFlags] = useState(mineCount);
   const [disabled, setDisabled] = useState(0);
+  const [activeCount, setActiveCount] = useState(0);
   const [grid, setGrid] = useState(() => CreateGrid(gridSize, mineCount));
   const [mask, setMask] = useState<MaskState[]>(() =>
     new Array(gridSize * gridSize).fill("inactive")
@@ -51,6 +47,7 @@ const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
     while (clearingCoords.length) {
       const [x, y] = clearingCoords.pop()!!;
       mask[y * gridSize + x] = "active";
+      setActiveCount(activeCount + 1);
 
       if (grid[y * gridSize + x] !== 0) continue;
 
@@ -94,20 +91,17 @@ const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
   };
 
   useEffect(() => {
-    if (disabled === mineCount) {
+    const countActiveBox = gridSize ** 2 - mineCount;
+    if (activeCount === countActiveBox && disabled === mineCount) {
       setGameStatus("win");
     }
-  }, [disabled, setGameStatus]);
+  }, [disabled, setGameStatus, activeCount, setActiveCount]);
 
   return (
-    <BoardRoot>
-      <div>
-        {flags}
-        {disabled}
-      </div>
+    <div>
       {demension.map((_, y) => {
         return (
-          <RowDiv key={y}>
+          <div className="board-row" key={y}>
             {demension.map((_, x) => {
               return (
                 <BoardElement
@@ -127,10 +121,10 @@ const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
                 />
               );
             })}
-          </RowDiv>
+          </div>
         );
       })}
-    </BoardRoot>
+    </div>
   );
 };
 

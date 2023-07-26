@@ -1,0 +1,14 @@
+.element{
+  height: 40px;
+  width: 40px;
+  margin: 3px;
+  background-color: #90EFB6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.disabled{
+  background-color: #F46D6D;
+}
