@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./Board.css";
 import { CreateGrid } from "../../utils";
-import BoardElement from "./BoardElement";
-import { GameStatus } from "../Game";
-
-export type MaskState = "active" | "inactive" | "flaged";
+import BoardElement from "../BoardElement";
+import { GameStatusType } from "../../pages/Game";
+import { MaskState } from ".";
 
 type BoardProps = {
-  setGameStatus: React.Dispatch<React.SetStateAction<GameStatus>>;
-  gameStatus: GameStatus;
+  setGameStatus: React.Dispatch<React.SetStateAction<GameStatusType>>;
+  gameStatus: GameStatusType;
 };
 
 const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {

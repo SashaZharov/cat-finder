@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import "./EndGameModal.css";
-import { GameStatus } from "./Game";
+import { GameStatusType } from "../../pages/Game";
 
 type EndGameProps = {
-  status: GameStatus;
+  status: GameStatusType;
 };
 
 const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
@@ -12,8 +12,8 @@ const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
   return (
     <>
       <div className="mask" />
-      <div className="modalRoot" ref={$modal}>
-        <div className="text">
+      <div className="modal-root" ref={$modal}>
+        <div className="styled-text">
           {status === "lose" ? "Ты проиграл" : "Ты выйграл"}
         </div>
         <button className="main-button">Начать заново</button>

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import "./BoardElement.css";
-import { MaskState } from "./Board";
+import { MaskState } from "../Board";
 
 type BoardProps = {
   state: MaskState;

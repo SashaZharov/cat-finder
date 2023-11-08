@@ -1,12 +1,8 @@
 import React from "react";
-import Game from "./components/Game";
+import Game from "./pages/Game";
 
 const App = () => {
-  return (
-    <div>
-      <Game />
-    </div>
-  );
+  return <Game />;
 };
 
 export default App;

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./InfoCell.css";
-import clock from "../img/clock.svg";
-import flag from "../img/flag.svg";
-import cat from "../img/cat.png";
+import clock from "../../img/clock.svg";
+import flag from "../../img/flag.svg";
+import cat from "../../img/cat.png";
 
 type InfoCellProps = {
   timer: number;
