@@ -1,20 +1,24 @@
-const shuffle = (arr: number[]) => {
+const Shuffle = (arr: number[]) => {
   for (let i = arr.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 };
 
-const getRandomCoords = (size: number, countRandomElem: number) => {
+const GetRandomCoords = (
+  size: number,
+  countRandomElem: number,
+  targetField: number
+) => {
   const arr = [];
   const randomCoords = [];
   const max = size * size;
 
   for (let i = 0; i < max; i++) {
-    arr.push(i);
+    if (i !== targetField) arr.push(i);
   }
 
-  shuffle(arr);
+  Shuffle(arr);
 
   for (let i = 0; i < countRandomElem; i++) {
     const y = Math.floor(arr[i] / size);
@@ -25,10 +29,14 @@ const getRandomCoords = (size: number, countRandomElem: number) => {
   return randomCoords;
 };
 
-export const CreateGrid = (size: number, mineCount: number) => {
+export const CreateGrid = (
+  size: number,
+  mineCount: number,
+  targetField: number
+) => {
   const MINE = -1;
-  const grid = new Array(size * size).fill(0);
-  const mineCoords = getRandomCoords(size, mineCount);
+  const grid: number[] = new Array(size * size).fill(0);
+  const mineCoords = GetRandomCoords(size, mineCount, targetField);
 
   const inc = (x: number, y: number) => {
     if (x >= 0 && x < size && y >= 0 && y < size) {
@@ -37,8 +45,7 @@ export const CreateGrid = (size: number, mineCount: number) => {
     }
   };
 
-  //заполнение поля бомбами
-
+  // Filling the field with bombs
   for (let i = 0; i < mineCoords.length; i++) {
     const x = mineCoords[i][0];
     const y = mineCoords[i][1];
