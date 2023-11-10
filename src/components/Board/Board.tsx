@@ -12,7 +12,7 @@ type BoardProps = {
 
 const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
   const gridSize = 10;
-  const mineCount = 95;
+  const mineCount = 3;
   const [flags, setFlags] = useState(mineCount);
   const [disabled, setDisabled] = useState(0);
   const [activeCount, setActiveCount] = useState(0);
@@ -34,7 +34,7 @@ const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
 
   const onHandelClick = (x: number, y: number) => {
     console.log("Click", x, y);
-    console.log(grid);
+
     if (grid.length < 1) {
       const targetField = y * gridSize + x;
       const newGrid = CreateGrid(gridSize, mineCount, targetField);
@@ -57,7 +57,6 @@ const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
     while (clearingCoords.length) {
       const [x, y] = clearingCoords.pop()!!;
       mask[y * gridSize + x] = "active";
-      setActiveCount(activeCount + 1);
 
       if (grid[y * gridSize + x] !== 0) continue;
 
@@ -66,6 +65,13 @@ const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
       clear(x, y + 1, clearingCoords);
       clear(x, y - 1, clearingCoords);
     }
+
+    let countActiveFields = 0;
+    for (let i = mask.length; i >= 0; i--) {
+      if (mask[i] === "active") countActiveFields += 1;
+    }
+
+    setActiveCount(countActiveFields);
     setMask((prev) => [...prev]);
   };
 
@@ -103,10 +109,11 @@ const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
 
   useEffect(() => {
     const countActiveBox = gridSize ** 2 - mineCount;
+
     if (activeCount === countActiveBox && disabled === mineCount) {
       setGameStatus("win");
     }
-  }, [disabled, setGameStatus, activeCount, setActiveCount]);
+  }, [disabled, setGameStatus, activeCount]);
 
   return (
     <div>

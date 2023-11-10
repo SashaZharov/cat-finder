@@ -14,9 +14,19 @@ const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
       <div className="mask" />
       <div className="modal-root" ref={$modal}>
         <div className="styled-text">
-          {status === "lose" ? "Ты проиграл" : "Ты выйграл"}
+          {status === "lose" ? (
+            <div className="red-text">Поражение</div>
+          ) : (
+            <div className="green-text">Победа</div>
+          )}
         </div>
-        <button className="main-button">Начать заново</button>
+        <button
+          className={`main-button ${
+            status === "lose" ? "red-background" : "green-background"
+          }`}
+        >
+          Начать заново
+        </button>
       </div>
     </>
   );
