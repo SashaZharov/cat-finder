@@ -1,13 +1,19 @@
 import React, { useRef } from "react";
 import "./EndGameModal.css";
 import { GameStatusType } from "../../pages/Game";
+import { useAppDispatch } from "../../hooks";
+import { setGrid, setGameStatus } from "../../store/gameSlice";
 
 type EndGameProps = {
   status: GameStatusType;
 };
 
 const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
+  const dispatch = useAppDispatch();
+
   const $modal = useRef(null);
+
+  const Restart = () => {};
 
   return (
     <>
@@ -24,6 +30,7 @@ const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
           className={`main-button ${
             status === "lose" ? "red-background" : "green-background"
           }`}
+          onClick={() => Restart()}
         >
           Начать заново
         </button>

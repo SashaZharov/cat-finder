@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import bridge from "@vkontakte/vk-bridge";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 bridge.send("VKWebAppInit");
 
@@ -10,6 +12,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );

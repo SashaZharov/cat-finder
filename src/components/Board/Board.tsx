@@ -4,19 +4,21 @@ import { CreateGrid } from "../../utils";
 import BoardElement from "../BoardElement";
 import { GameStatusType } from "../../pages/Game";
 import { MaskState } from ".";
+import { useAppSelector, useAppDispatch } from "../../hooks";
+import { RootState } from "../../store";
+import { setGrid, setGameStatus } from "../../store/gameSlice";
 
-type BoardProps = {
-  setGameStatus: React.Dispatch<React.SetStateAction<GameStatusType>>;
-  gameStatus: GameStatusType;
-};
+const Board: React.FC = () => {
+  const dispatch = useAppDispatch();
 
-const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
-  const gridSize = 10;
-  const mineCount = 3;
+  const grid = useAppSelector((state) => state.game.grid);
+  const gridSize = useAppSelector((state) => state.game.gridSize);
+  const mineCount = useAppSelector((state) => state.game.mineCount);
+  const gameStatus = useAppSelector((state) => state.game.gameSatatus);
+
   const [flags, setFlags] = useState(mineCount);
   const [disabled, setDisabled] = useState(0);
   const [activeCount, setActiveCount] = useState(0);
-  const [grid, setGrid] = useState<number[]>([]);
   const [mask, setMask] = useState<MaskState[]>(() =>
     new Array(gridSize * gridSize).fill("inactive")
   );
@@ -38,14 +40,14 @@ const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
     if (grid.length < 1) {
       const targetField = y * gridSize + x;
       const newGrid = CreateGrid(gridSize, mineCount, targetField);
-      setGrid(newGrid);
+      dispatch(setGrid({ grid: newGrid }));
     }
 
     if (mask[y * gridSize + x] === "flaged") return;
 
     // Сheck lose
     if (grid[y * gridSize + x] === -1) {
-      setGameStatus("lose");
+      dispatch(setGameStatus({ gameStatus: "lose" }));
       setMask(() => new Array(gridSize * gridSize).fill("active"));
     }
 
@@ -82,6 +84,7 @@ const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
   ) => {
     event.preventDefault();
     event.stopPropagation();
+    // dispatch(setFlags({ flags: flags + 1 }));
 
     const targetField = y * gridSize + x;
     const isBomb = grid[targetField] === -1;
@@ -105,15 +108,16 @@ const Board: React.FC<BoardProps> = ({ setGameStatus, gameStatus }) => {
       setFlags(flags - 1);
       setMask((prev) => [...prev]);
     }
+    console.log("R-click", flags);
   };
 
   useEffect(() => {
     const countActiveBox = gridSize ** 2 - mineCount;
 
     if (activeCount === countActiveBox && disabled === mineCount) {
-      setGameStatus("win");
+      dispatch(setGameStatus({ gameStatus: "win" }));
     }
-  }, [disabled, setGameStatus, activeCount]);
+  }, [disabled, activeCount, gridSize, mineCount, dispatch]);
 
   return (
     <div>
