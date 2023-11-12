@@ -11,7 +11,7 @@ const Game = () => {
   return (
     <div className="background">
       <div className="game-root">
-        <InfoCell timer={0} flags={10} />
+        <InfoCell />
         <Board />
         {gameStatus !== "progress" && <EndGameModal status={gameStatus} />}
       </div>

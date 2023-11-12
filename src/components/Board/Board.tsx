@@ -2,11 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import "./Board.css";
 import { CreateGrid } from "../../utils";
 import BoardElement from "../BoardElement";
-import { GameStatusType } from "../../pages/Game";
-import { MaskState } from ".";
 import { useAppSelector, useAppDispatch } from "../../hooks";
-import { RootState } from "../../store";
-import { setGrid, setGameStatus } from "../../store/gameSlice";
+import { MaskState } from ".";
+import { setGrid, setGameStatus, setFlags } from "../../store/gameSlice";
 
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -15,8 +13,8 @@ const Board: React.FC = () => {
   const gridSize = useAppSelector((state) => state.game.gridSize);
   const mineCount = useAppSelector((state) => state.game.mineCount);
   const gameStatus = useAppSelector((state) => state.game.gameSatatus);
+  const flags = useAppSelector((state) => state.game.flags);
 
-  const [flags, setFlags] = useState(mineCount);
   const [disabled, setDisabled] = useState(0);
   const [activeCount, setActiveCount] = useState(0);
   const [mask, setMask] = useState<MaskState[]>(() =>
@@ -27,19 +25,27 @@ const Board: React.FC = () => {
   const clear = useCallback(
     (x: number, y: number, clearingCoords: [number, number][]) => {
       if (mask[y * gridSize + x] === "active") return;
+      if (mask[y * gridSize + x] === "flaged") return;
+
       if (x >= 0 && x < gridSize && y >= 0 && y < gridSize) {
         clearingCoords.push([x, y]);
       }
     },
-    [mask]
+    [gridSize, mask]
   );
 
   const onHandelClick = (x: number, y: number) => {
-    console.log("Click", x, y);
-
-    if (grid.length < 1) {
+    // Restart game
+    if (grid.length === 0) {
       const targetField = y * gridSize + x;
       const newGrid = CreateGrid(gridSize, mineCount, targetField);
+      let newMask = new Array(gridSize * gridSize).fill("inactive");
+
+      newMask[targetField] = "active";
+      setMask(newMask);
+      dispatch(setFlags({ flags: mineCount }));
+      setDisabled(0);
+      setActiveCount(0);
       dispatch(setGrid({ grid: newGrid }));
     }
 
@@ -47,8 +53,10 @@ const Board: React.FC = () => {
 
     // Сheck lose
     if (grid[y * gridSize + x] === -1) {
+      const newMask = new Array(gridSize * gridSize).fill("active");
+      setMask(newMask);
+      dispatch(setFlags({ flags: mineCount }));
       dispatch(setGameStatus({ gameStatus: "lose" }));
-      setMask(() => new Array(gridSize * gridSize).fill("active"));
     }
 
     // Сlearing game map
@@ -84,14 +92,13 @@ const Board: React.FC = () => {
   ) => {
     event.preventDefault();
     event.stopPropagation();
-    // dispatch(setFlags({ flags: flags + 1 }));
 
     const targetField = y * gridSize + x;
     const isBomb = grid[targetField] === -1;
 
     if (mask[targetField] === "flaged") {
       mask[targetField] = "inactive";
-      setFlags(flags + 1);
+      dispatch(setFlags({ flags: flags + 1 }));
       if (isBomb) {
         setDisabled(disabled - 1);
       }
@@ -105,10 +112,9 @@ const Board: React.FC = () => {
         setDisabled(disabled + 1);
       }
 
-      setFlags(flags - 1);
+      dispatch(setFlags({ flags: flags - 1 }));
       setMask((prev) => [...prev]);
     }
-    console.log("R-click", flags);
   };
 
   useEffect(() => {
@@ -116,6 +122,9 @@ const Board: React.FC = () => {
 
     if (activeCount === countActiveBox && disabled === mineCount) {
       dispatch(setGameStatus({ gameStatus: "win" }));
+      const newMask = new Array(gridSize * gridSize).fill("active");
+      setMask(newMask);
+      dispatch(setFlags({ flags: mineCount }));
     }
   }, [disabled, activeCount, gridSize, mineCount, dispatch]);
 

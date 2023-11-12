@@ -13,7 +13,10 @@ const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
 
   const $modal = useRef(null);
 
-  const Restart = () => {};
+  const RestartGame = () => {
+    dispatch(setGameStatus({ gameStatus: "progress" }));
+    dispatch(setGrid({ grid: [] }));
+  };
 
   return (
     <>
@@ -30,7 +33,7 @@ const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
           className={`main-button ${
             status === "lose" ? "red-background" : "green-background"
           }`}
-          onClick={() => Restart()}
+          onClick={() => RestartGame()}
         >
           Начать заново
         </button>

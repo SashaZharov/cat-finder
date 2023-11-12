@@ -3,13 +3,11 @@ import "./InfoCell.css";
 import clock from "../../img/clock.svg";
 import flag from "../../img/flag.svg";
 import cat from "../../img/cat.png";
+import { useAppSelector } from "../../hooks";
 
-type InfoCellProps = {
-  timer: number;
-  flags: number;
-};
-
-const InfoCell = ({ timer, flags }: InfoCellProps) => {
+const InfoCell = () => {
+  const flags = useAppSelector((state) => state.game.flags);
+  const timer = 0;
   return (
     <div className="cell-root">
       <div className="cell-fragment">
