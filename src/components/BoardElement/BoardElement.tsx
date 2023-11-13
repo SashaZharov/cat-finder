@@ -1,6 +1,7 @@
 import React from "react";
 import "./BoardElement.css";
 import { MaskState } from "../Board";
+import flag from "../../img/flag.svg";
 
 type BoardProps = {
   state: MaskState;
@@ -19,6 +20,8 @@ const BoardElement = ({
 
   if (CountOfNeighbors === -1 && state === "active") {
     elementClass += " disabled";
+  } else if (state === "active") {
+    elementClass += ` number-${CountOfNeighbors}`;
   }
 
   return (
@@ -27,8 +30,8 @@ const BoardElement = ({
       onClick={onHandelClick}
       onContextMenu={onRightMouseClick}
     >
-      {state === "flaged" ? "F" : ""}
-      {state === "active" ? CountOfNeighbors : ""}
+      {state === "flaged" && <img src={flag} alt="" />}
+      {state === "active" && CountOfNeighbors !== -1 && CountOfNeighbors}
     </div>
   );
 };
