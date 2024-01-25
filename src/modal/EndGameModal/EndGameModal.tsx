@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import "./EndGameModal.css";
 import { GameStatusType } from "../../pages/Game";
 import { useAppDispatch } from "../../hooks";
-import { setGrid, setGameStatus } from "../../store/gameSlice";
+import { setGameStatus } from "../../store/gameSlice";
 
 type EndGameProps = {
   status: GameStatusType;
@@ -15,7 +15,6 @@ const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
 
   const RestartGame = () => {
     dispatch(setGameStatus({ gameStatus: "progress" }));
-    dispatch(setGrid({ grid: [] }));
   };
 
   return (

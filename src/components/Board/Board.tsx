@@ -35,20 +35,6 @@ const Board: React.FC = () => {
   );
 
   const onHandelClick = (x: number, y: number) => {
-    // Restart game
-    if (grid.length === 0) {
-      const targetField = y * gridSize + x;
-      const newGrid = CreateGrid(gridSize, mineCount, targetField);
-      let newMask = new Array(gridSize * gridSize).fill("inactive");
-
-      newMask[targetField] = "active";
-      setMask(newMask);
-      dispatch(setFlags({ flags: mineCount }));
-      setDisabled(0);
-      setActiveCount(0);
-      dispatch(setGrid({ grid: newGrid }));
-    }
-
     if (mask[y * gridSize + x] === "flaged") return;
 
     // Сheck lose
@@ -127,6 +113,19 @@ const Board: React.FC = () => {
       dispatch(setFlags({ flags: mineCount }));
     }
   }, [disabled, activeCount, gridSize, mineCount, dispatch]);
+
+  useEffect(() => {
+    if (gameStatus === "progress") {
+      let newMask = new Array(gridSize * gridSize).fill("inactive");
+      setMask(newMask);
+      dispatch(setFlags({ flags: mineCount }));
+      setDisabled(0);
+      setActiveCount(0);
+
+      const newGrid = CreateGrid(gridSize, mineCount);
+      dispatch(setGrid({ grid: newGrid }));
+    }
+  }, [dispatch, gridSize, mineCount, gameStatus]);
 
   return (
     <div>

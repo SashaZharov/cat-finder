@@ -5,17 +5,13 @@ const Shuffle = (arr: number[]) => {
   }
 };
 
-const GetRandomCoords = (
-  size: number,
-  countRandomElem: number,
-  targetField: number
-) => {
+const GetRandomCoords = (size: number, countRandomElem: number) => {
   const arr = [];
   const randomCoords = [];
   const max = size * size;
 
   for (let i = 0; i < max; i++) {
-    if (i !== targetField) arr.push(i);
+    arr.push(i);
   }
 
   Shuffle(arr);
@@ -29,14 +25,10 @@ const GetRandomCoords = (
   return randomCoords;
 };
 
-export const CreateGrid = (
-  size: number,
-  mineCount: number,
-  targetField: number
-) => {
+export const CreateGrid = (size: number, mineCount: number) => {
   const MINE = -1;
   const grid: number[] = new Array(size * size).fill(0);
-  const mineCoords = GetRandomCoords(size, mineCount, targetField);
+  const mineCoords = GetRandomCoords(size, mineCount);
 
   const inc = (x: number, y: number) => {
     if (x >= 0 && x < size && y >= 0 && y < size) {

@@ -1,16 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GameStatusType } from "../pages/Game";
-import { MaskState } from "../components/Board";
 
 const gameSlice = createSlice({
   name: "game",
   initialState: {
     gameSatatus: "progress" as GameStatusType,
     gridSize: 10,
-    mineCount: 5,
-    flags: 5,
+    mineCount: 10,
+    flags: 10,
     grid: [],
-    mask: [] as MaskState[],
   },
   reducers: {
     setGrid(state, action) {
