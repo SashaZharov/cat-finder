@@ -4,12 +4,11 @@ import { CreateGrid } from "../../utils";
 import BoardElement from "../BoardElement";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import { MaskState } from ".";
-import { setGrid, setGameStatus, setFlags } from "../../store/gameSlice";
+import { setGameStatus, setFlags } from "../../store/gameSlice";
 
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const grid = useAppSelector((state) => state.game.grid);
   const gridSize = useAppSelector((state) => state.game.gridSize);
   const mineCount = useAppSelector((state) => state.game.mineCount);
   const gameStatus = useAppSelector((state) => state.game.gameSatatus);
@@ -17,6 +16,7 @@ const Board: React.FC = () => {
 
   const [disabled, setDisabled] = useState(0);
   const [activeCount, setActiveCount] = useState(0);
+  const [grid, setGrid] = useState<number[]>([]);
   const [mask, setMask] = useState<MaskState[]>(() =>
     new Array(gridSize * gridSize).fill("inactive")
   );
@@ -117,7 +117,7 @@ const Board: React.FC = () => {
       setActiveCount(0);
 
       const newGrid = CreateGrid(gridSize, mineCount);
-      dispatch(setGrid({ grid: newGrid }));
+      setGrid(newGrid);
     } else {
       const newMask = new Array(gridSize * gridSize).fill("active");
       setMask(newMask);

@@ -8,13 +8,8 @@ const gameSlice = createSlice({
     gridSize: 10,
     mineCount: 15,
     flags: 15,
-    grid: [],
   },
   reducers: {
-    setGrid(state, action) {
-      state.grid = action.payload.grid;
-    },
-
     setGameStatus(state, action) {
       state.gameSatatus = action.payload.gameStatus;
     },
@@ -24,6 +19,6 @@ const gameSlice = createSlice({
   },
 });
 
-export const { setGrid, setGameStatus, setFlags } = gameSlice.actions;
+export const { setGameStatus, setFlags } = gameSlice.actions;
 
 export default gameSlice.reducer;
