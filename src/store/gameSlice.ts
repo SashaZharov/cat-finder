@@ -6,8 +6,8 @@ const gameSlice = createSlice({
   initialState: {
     gameSatatus: "progress" as GameStatusType,
     gridSize: 10,
-    mineCount: 10,
-    flags: 10,
+    mineCount: 15,
+    flags: 15,
     grid: [],
   },
   reducers: {

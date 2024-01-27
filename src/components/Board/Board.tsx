@@ -39,9 +39,6 @@ const Board: React.FC = () => {
 
     // Сheck lose
     if (grid[y * gridSize + x] === -1) {
-      const newMask = new Array(gridSize * gridSize).fill("active");
-      setMask(newMask);
-      dispatch(setFlags({ flags: mineCount }));
       dispatch(setGameStatus({ gameStatus: "lose" }));
     }
 
@@ -108,9 +105,6 @@ const Board: React.FC = () => {
 
     if (activeCount === countActiveBox && disabled === mineCount) {
       dispatch(setGameStatus({ gameStatus: "win" }));
-      const newMask = new Array(gridSize * gridSize).fill("active");
-      setMask(newMask);
-      dispatch(setFlags({ flags: mineCount }));
     }
   }, [disabled, activeCount, gridSize, mineCount, dispatch]);
 
@@ -124,6 +118,10 @@ const Board: React.FC = () => {
 
       const newGrid = CreateGrid(gridSize, mineCount);
       dispatch(setGrid({ grid: newGrid }));
+    } else {
+      const newMask = new Array(gridSize * gridSize).fill("active");
+      setMask(newMask);
+      dispatch(setFlags({ flags: mineCount }));
     }
   }, [dispatch, gridSize, mineCount, gameStatus]);
 

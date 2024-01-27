@@ -22,7 +22,7 @@
 }
 
 .number-0 {
-  color: lightgrey;
+  color: #d3d3d3;
   background-color: lightgrey;
 }
 
@@ -32,7 +32,7 @@
 }
 
 .number-2 {
-  color: #0f8a3e;
+  color: #10aa4b;
   background-color: lightgrey;
 }
 
@@ -51,17 +51,17 @@
 }
 
 .number-6 {
-  color: #17d8b8;
+  color: #17AA92;
   background-color: lightgrey;
 }
 
 .number-7 {
-  color: #90EFB6;
+  color: #000000;
   background-color: lightgrey;
 }
 
 .number-8 {
-  color: #90EFB6;
+  color: #942ED2;
   background-color: lightgrey;
 }
 

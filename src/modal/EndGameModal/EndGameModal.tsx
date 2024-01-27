@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import "./EndGameModal.css";
 import { GameStatusType } from "../../pages/Game";
 import { useAppDispatch } from "../../hooks";
@@ -11,8 +11,6 @@ type EndGameProps = {
 const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
   const dispatch = useAppDispatch();
 
-  const $modal = useRef(null);
-
   const RestartGame = () => {
     dispatch(setGameStatus({ gameStatus: "progress" }));
   };
@@ -20,7 +18,7 @@ const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
   return (
     <>
       <div className="mask" />
-      <div className="modal-root" ref={$modal}>
+      <div className="modal-root">
         <div className="styled-text">
           {status === "lose" ? (
             <div className="red-text">Поражение</div>
