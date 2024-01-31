@@ -1,15 +1,11 @@
 import React from "react";
 import "./EndGameModal.css";
-import { GameStatusType } from "../../pages/Game";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { setGameStatus } from "../../store/gameSlice";
 
-type EndGameProps = {
-  status: GameStatusType;
-};
-
-const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
+const EndGameModal: React.FC = () => {
   const dispatch = useAppDispatch();
+  const gameStatus = useAppSelector((state) => state.game.gameSatatus);
 
   const RestartGame = () => {
     dispatch(setGameStatus({ gameStatus: "progress" }));
@@ -17,10 +13,10 @@ const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
 
   return (
     <>
-      <div className="mask" />
-      <div className="modal-root">
+      {gameStatus !== "progress" && <div className="mask" />}
+      <div className={`modal-root ${gameStatus !== "progress" ? "" : "hide"}`}>
         <div className="styled-text">
-          {status === "lose" ? (
+          {gameStatus === "lose" ? (
             <div className="red-text">Поражение</div>
           ) : (
             <div className="green-text">Победа</div>
@@ -28,7 +24,7 @@ const EndGameModal: React.FC<EndGameProps> = ({ status }) => {
         </div>
         <button
           className={`main-button ${
-            status === "lose" ? "red-background" : "green-background"
+            gameStatus === "lose" ? "red-background" : "green-background"
           }`}
           onClick={() => RestartGame()}
         >

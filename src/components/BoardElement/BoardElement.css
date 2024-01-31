@@ -11,11 +11,18 @@
   background-color: #90EFB6;
   cursor: pointer;
   user-select: none;
+  color: #90EFB6;
+}
+
+.cat-element {
+  width: 36.8px;
+  height: 27.2px;
+
 }
 
 .disabled {
   background-color: #F46D6D;
-  background-image: url("../../img/cat.png");
+  
   background-size: 100%;
   background-position: 0;
   background-repeat: no-repeat;
