@@ -1,17 +1,22 @@
 .red-text {
-  color:#F46D6D;
+  color: #f46d6d;
 }
 
 .red-background {
-  background-color:#F46D6D;
+  background-color: #f46d6d;
   color: #fff;
 }
 
 .green-text {
-  color: #66DB7F;
+  color: #66db7f;
 }
 
 .green-background {
-  background-color: #66DB7F;
+  background-color: #66db7f;
   color: #fff;
+}
+
+@font-face {
+  font-family: "Tahoma";
+  src: url("../public/assets/fonts/tahoma.ttf");
 }
