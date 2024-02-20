@@ -4,8 +4,24 @@
 
 Поиграть можно тут: [CatFinder](https://vk.com/services?w=app51791486_247872158).
 
+## Стек
+
+- React
+- TypeScript
+
 ## Запустить локально
 
-### `npm start`
+1. Клонирование репозитория
+   ```bash
+   git clone https://github.com/SashaZharov/cat-finder.git
+   ```
+2. Установка зависимостей
+   ```bash
+   npm install
+   ```
+3. Запуск проекта
+   ```bash
+   npm start
+   ```
 
 Проект будет запущен здесь: [http://localhost:3000](http://localhost:3000)
